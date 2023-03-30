@@ -10,7 +10,7 @@ If you’ve learned about asynchronous programming, you may wonder how your code
 Why Do We Need an Event Loop?
 
 JavaScript is a single-threaded language, which means that two statements can’t be executed simultaneously. For example, if you have a for loop that takes a while to process, it’ll have to finish executing before the rest of your code runs. That results in blocking code. But as we already learned, we can run non-blocking code in JavaScript, which is where the Event Loop comes in. Input/output (I/O) is handled with events and callbacks so code execution can continue. Let’s look at an example of blocking and non-blocking code. Run this block of code yourself locally.
-
+*/
 console.log("I'm learning about");
 
 for (let idx=0; idx < 999999999; idx++) {}
@@ -19,6 +19,7 @@ for (let idx=0; idx < 999999999; idx++) {}
 // delayed by the for loop's execution
 console.log("the Event Loop");
 
+/*
 Free response
 
 What happened when you ran the code? What did you notice about the timing of the execution of your console.log() statements?
@@ -36,11 +37,11 @@ The example above has synchronous code with a long for loop. Here’s what happe
     Finally, “the Event Loop” is logged.
 
 Now let’s take a look at the non-blocking example. There are functions like setTimeout() that work differently thanks to the Event Loop. Run the code:
-
+*/
 console.log("I’m learning about");
 setTimeout(() => { console.log("Event Loop");}, 2000);
 console.log("the");
-
+/*
 In this case, the code snippet uses the setTimeout() function to demonstrate how JavaScript can be non-blocking with use of the event loop. Here’s what happens:
 
     A statement is logged.
@@ -80,6 +81,7 @@ The Call Stack
 The stack, or call stack, tracks what function is currently being run in your code.
 
 When you invoke a function, a frame is added to the stack. Frames connect that function’s arguments and local variables from the heap. Frames enter the stack in a last in, first out (LIFO) order. In the code snippet below, a series of nested functions are declared, then foo() is called and logged.
+*/
 
 function foo() {
  return function bar() {
@@ -90,6 +92,7 @@ function foo() {
 }
 console.log(foo()()());
 
+/*
 The function executing at any given point in time is at the top of the stack. In our example code, since we have nested functions, they will all be added to the stack until the innermost function has been executed. When the function finishes executing e.g. returns, its frame is removed from the stack. When we execute console.log(foo()()()), we’d see the stack build as follows:
 
 You might have noticed that global() is at the bottom of the stack–when you first initiate a program, the global execution context is added to the call stack, which contains the global variable and lexical environment. Each subsequent frame for a called function has a function execution context that includes the function’s lexical and variable environment.
@@ -109,6 +112,7 @@ This event loop is a specific part of our overall event loop concept. Messages t
 The Event Loop in Action
 
 Now that we know all of the pieces of the event loop, let’s walk through some code to understand the event loop in action.
+*/
 
 console.log("This is the first line of code in app.js.");
 
@@ -119,6 +123,7 @@ setTimeout(usingsetTimeout, 3000);
 
 console.log("This is the last line of code in app.js.");
 
+/*
     console.log("This is the first line of code in app.js."); is added to the stack, executes, then pops off of the stack.
     setTimeout() is added to the stack.
     setTimeout()’s callback is passed to be executed by a web API. The timer will run for 3 seconds. After 3 seconds elapse, the callback function, usingsetTimeout() is pushed to the Event Queue.
@@ -152,6 +157,7 @@ The heap and stack are the parts maintained by the JavaScript engine that run sy
 Free response
 
 Describe in regard to the event loop what is happening when this code executes:
+*/
 
 const shopForBeans = () => {
   return new Promise((resolve, reject) => {
@@ -174,6 +180,7 @@ async function getBeans() {
 getBeans();
 console.log("Describe what happens with this `console.log()` statement as well.");
 
+/*
 Your response
 
 the async function launches and loging text(1) => then process halts to and executes the shopForBeans Promise functions => the final string logs (Describe what happens …) => it sets an array of 5 types of beans and select one of them randomly and then resolves with setting the beanTypes so. => the setTimeout returns the interpolated string (2) => the stack now resumesand then interpolated string (3) launches
